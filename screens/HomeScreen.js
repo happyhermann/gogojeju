@@ -4,12 +4,10 @@ import {
   Text,
   View,
   Dimensions,
-  ActivityIndicator,
-  ScrollView,
-  SafeAreaView,
   ImageBackground,
-  Alert,
 } from "react-native";
+
+import Modall from "./Modall";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
@@ -37,6 +35,16 @@ export default function HomeScreen() {
   const [city, setCity] = useState("Loading...");
   const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
+
+  const [isOpen, setOpen] = useState(false);
+
+  // 모달창 여는 state
+
+  useEffect(() => {
+    setOpen(true);
+  }, []);
+
+  // 렌더링 될 때 딱 한번만 setOpen 해주기
 
   const getWeather = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
@@ -75,14 +83,16 @@ export default function HomeScreen() {
       resizeMode="cover"
     >
       <View>
-        <Text>님, 안녕하세요!</Text>
+        {/* <Text>님, 안녕하세요!</Text> */}
         <Text style={styles.cityName}>{city}</Text>
       </View>
-
+      {/* 
       <View style={styles.textBox}>
         <Text style={styles.text}>가보지 못한 제주의 여행지</Text>
         <Text style={styles.text}>고고 제주.</Text>
-      </View>
+      </View> */}
+
+      {isOpen && <Modall />}
     </ImageBackground>
   );
 }
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cityName: {
-    fontSize: 58,
+    fontSize: 20,
     fontWeight: "500",
   },
   weather: {},
